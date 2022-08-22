@@ -1,1 +1,1 @@
-nohup python3.9 auto_squeue.py > auto_squeue_out.txt &
+nohup python3 auto_squeue.py > auto_squeue_out.txt &
