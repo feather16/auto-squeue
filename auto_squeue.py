@@ -44,7 +44,7 @@ class Job:
             }
         )
     def __repr__(self) -> str:
-        return 'Job(' + \
+        return f'{self.__class__.__name__}(' + \
             f'{self.jobid}, ' + \
             f'"{self.partition}", ' + \
             f'"{self.name}", ' + \
