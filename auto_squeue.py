@@ -117,7 +117,6 @@ while True:
     if date_now.second == 0:
         try:
             update_sheet()
-            print(f'Updated sheet at {date_now}')
         except Exception as e:
             print(e)
             print(f'Failed to update sheet at {date_now}')
