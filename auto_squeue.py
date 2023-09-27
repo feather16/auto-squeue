@@ -4,19 +4,28 @@ import pytz
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import subprocess
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--name', type=str)
+args = parser.parse_args()
+print(args)
 
 # (1) Google Spread Sheetsにアクセス
-def connect_gspread(token_file_path,key):
+def connect_gspread(token_file_path, key, name: str):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name(token_file_path, scope)
     gc = gspread.authorize(credentials)
     SPREADSHEET_KEY = key
-    worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
+    spread_sheet = gc.open_by_key(SPREADSHEET_KEY)
+    name_to_id = {sheet.title: sheet.id for sheet in spread_sheet.worksheets()}
+    id = name_to_id[name]
+    worksheet = spread_sheet.get_worksheet_by_id(id)
     return worksheet
 
 token_file_path = "token.json"
 spread_sheet_key = open('spread_sheet_key').read()
-ws = connect_gspread(token_file_path, spread_sheet_key)
+ws = connect_gspread(token_file_path, spread_sheet_key, args.name)
 
 class Job:
     def __init__(self, 
